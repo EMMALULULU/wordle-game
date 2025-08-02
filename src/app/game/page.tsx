@@ -39,6 +39,7 @@ export default function WordleGame() {
   const [misplacedLetters, setMisplacedLetters] = useState<Set<string>>(
     new Set()
   );
+  const [guessNotValid, setGuessNotValid] = useState(false);
 
   const handleKeyPress = (key: string) => {
     if (gameState !== 'INPROGRESS') return;
@@ -90,6 +91,14 @@ export default function WordleGame() {
       (tile) => tile.letter
     );
 
+    if (
+      !GAME_CONFIG.WORD_LIST.find((w) => w === currentGuessLetters.join(''))
+    ) {
+      setGuessNotValid(true);
+      return;
+    }
+    setGuessNotValid(false);
+
     const nextBoardState = [...letterBoardState];
     const newGuessedLetters = new Set(guessedLetters);
     const newCorrectLetters = new Set(correctLetters);
@@ -117,7 +126,7 @@ export default function WordleGame() {
     setGuessedLetters(newGuessedLetters);
     setCorrectLetters(newCorrectLetters);
     setMisplacedLetters(newMisplacedLetters);
-    console.log(currentRoundIdx);
+
     if (currentGuessLetters.join('') === targetWord) {
       setGameState('WIN');
     } else if (currentRoundIdx === MAX_ROUNDS - 1) {
@@ -135,6 +144,11 @@ export default function WordleGame() {
       {gameState === 'LOSE' && (
         <Typography variant="h5" color="white">
           {`Game Over! The word was ${targetWord}`}
+        </Typography>
+      )}
+      {guessNotValid && (
+        <Typography variant="h5" color="white">
+          word not in list, try again
         </Typography>
       )}
       <LetterBoard letterBoardState={letterBoardState} />
