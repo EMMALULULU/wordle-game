@@ -16,21 +16,69 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Task Scope
+Task 1 ,2, 3 (can check each commit to see detailed implementation at each stage)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Decision making
+### Task1: 
+pure FE with one game page and two components, virtualKeyboard and LettersBoard.
+the game state is contained in game page, which is an array of
 
-## Learn More
+```javascript
+ {
+    "letters": [
+                {
+                    "letter": "",
+                    "status": "UNUSED"
+                },
+                {
+                    "letter": "",
+                    "status": "UNUSED"
+                },
+                {
+                    "letter": "",
+                    "status": "UNUSED"
+                },
+                {
+                    "letter": "",
+                    "status": "UNUSED"
+                },
+                {
+                    "letter": "",
+                    "status": "UNUSED"
+                }
+            ],
+            "isCompleted": false
+}
+```
+to store each round of guess. to be able show the whole game board, the initial is an array contains 6 row object.
 
-To learn more about Next.js, take a look at the following resources:
+When virtualKeyboard is pressed, if the key is the letter, update the current row and column letter value of the game state
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Task 2:
+Add sqlite db using turso and connect to the nextjs using drizzle. because they are easy config and lightweight suitable for this project at meantime provide ability to scale the app like having user highest score feature.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+move game state from FE state to server and stored in db.
+create Dto file 
 
-## Deploy on Vercel
+##### Three Api 
+- ```/game/new```
+used to init a game row inside db, returns to user a game id 
+ - ```/game/[gameID]```
+used to fetch the game status of that specific gameID
+ - ```/game/guess```
+verify the guess input with word list
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+FE using page router param to store the ```gameId``` after init a game session, because it can make the game shareable, server-ready for nextjs api 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Task 3
+
+Algorithm of getting candidate word list based on user guess
+first to loop each word in candidate list and compare with guess to get the pattern of each letter state (e.g. hit, miss, or present) at same time calculate the score, hit = 2, present = 1, miss = 0) the goal is to find the pattern with lowest score. 
+dynamic maintain this candidate list and after each verification store the updated list to db 
+
+
+### Why Nextjs
+Write backend logic (e.g., game server) in ```/app/api/``` without a separate Node.js server.
+Works seamlessly withTurso/SQLite
+Supports dynamic routes (```/game/[id]/page.tsx```) 
