@@ -6,13 +6,15 @@ First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
+if you run it locally add to your local ```.env``` file
+
+```bash
+TURSO_CONNECTION_URL=libsql://wordle-game-emmalululu.aws-ap-northeast-1.turso.io
+TURSO_AUTH_TOKEN=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NTQxOTc0NzksImlkIjoiZWZlMDZkNjctYjlmNi00M2IzLWFiYTYtNzJmNmVlMDY5YjViIiwicmlkIjoiZjAwNDU2OWUtMGVhMi00OGM4LTlmYzItODRjNWI4NzEyMTc4In0.NHUODMgVOYZR5XpMDaarInRWz8TB1gExK14GGpYV-PCA5WrMFGQ0arFf8OwwJqG4-DdZ5R9CRyMRDehhCHhoCw
+ ```
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
