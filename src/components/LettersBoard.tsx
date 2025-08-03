@@ -1,7 +1,35 @@
-import { Stack, Typography } from '@mui/material';
+import { Stack, styled, Typography } from '@mui/material';
 
 import { grey } from '@mui/material/colors';
 import { ColorMap } from '@/const';
+
+const PulseRow = styled(Stack, {
+  shouldForwardProp: (prop) => prop !== 'verifying',
+})<{ verifying?: boolean }>(({ verifying }) => ({
+  background: 'black',
+  borderRadius: '50%',
+  margin: 20,
+  height: 20,
+  width: 20,
+  ...(verifying && {
+    filter: 'drop-shadow(0 0 8px #aed581)',
+    animation: 'pulse 2s infinite',
+    '@keyframes pulse': {
+      '0%': {
+        transform: 'scale(0.95)',
+        boxShadow: '0 0 0 0 rgba(0, 0, 0, 0.7)',
+      },
+      '70%': {
+        transform: 'scale(1)',
+        boxShadow: '0 0 0 10px rgba(0, 0, 0, 0)',
+      },
+      '100%': {
+        transform: 'scale(0.95)',
+        boxShadow: '0 0 0 0 rgba(0, 0, 0, 0)',
+      },
+    },
+  }),
+}));
 
 export type LetterStatus = 'H' | 'P' | 'M' | 'UNUSED';
 
@@ -17,8 +45,10 @@ export type LetterRow = {
 
 export const LetterBoard = ({
   letterBoardState,
+  verifyingIdx,
 }: {
   letterBoardState: LetterRow[];
+  verifyingIdx?: number;
 }) => {
   return (
     <Stack spacing={1}>
@@ -30,7 +60,8 @@ export const LetterBoard = ({
           key={rowIndex}
         >
           {row.letters.map((cell, colIndex) => (
-            <Stack
+            <PulseRow
+              verifying={rowIndex === verifyingIdx}
               justifyContent="center"
               alignItems="center"
               key={colIndex}
@@ -49,7 +80,7 @@ export const LetterBoard = ({
               <Typography variant="h5" color="white" fontWeight="bold">
                 {cell.letter}
               </Typography>
-            </Stack>
+            </PulseRow>
           ))}
         </Stack>
       ))}

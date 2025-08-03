@@ -45,7 +45,7 @@ export default function WordleGame({ params }: GamePageProps) {
     new Set()
   );
   const [guessNotValid, setGuessNotValid] = useState(false);
-  const [fakeTargetWord, setFakeTargetWord] = useState('');
+  const [verifying, setVerifying] = useState<number | undefined>(undefined);
 
   // load game state for each gameId
   useEffect(() => {
@@ -141,31 +141,36 @@ export default function WordleGame({ params }: GamePageProps) {
       setGuessNotValid(true);
       return;
     }
-    const response = await axios.post('/api/game/guess', {
-      gameId,
-      guess: currentGuess,
-    });
-    const data = response.data;
-    if (data) {
-      //update the submitted row state
-      setLetterBoardState((prev) => {
-        const nextState = [...prev];
-        nextState[currentRoundIdx] = data.row;
-        return nextState;
+    try {
+      setVerifying(currentRoundIdx);
+      const response = await axios.post('/api/game/guess', {
+        gameId,
+        guess: currentGuess,
       });
-      setCurrentRoundIdx(data.currentRound);
 
-      setGameState(data.status);
+      const data = response.data;
+      if (data) {
+        //update the submitted row state
+        setLetterBoardState((prev) => {
+          const nextState = [...prev];
+          nextState[currentRoundIdx] = data.row;
+          return nextState;
+        });
+        setCurrentRoundIdx(data.currentRound);
 
-      if (data.letterStates) {
-        setGuessedLetters(new Set(data.letterStates.guessedLetters));
-        setCorrectLetters(new Set(data.letterStates.correctLetters));
-        setMisplacedLetters(new Set(data.letterStates.misplacedLetters));
+        setGameState(data.status);
+
+        if (data.letterStates) {
+          setGuessedLetters(new Set(data.letterStates.guessedLetters));
+          setCorrectLetters(new Set(data.letterStates.correctLetters));
+          setMisplacedLetters(new Set(data.letterStates.misplacedLetters));
+        }
+        setGuessNotValid(false);
+        setCurrentLetterIdx(0);
       }
+    } finally {
+      setVerifying(undefined);
     }
-
-    setGuessNotValid(false);
-    setCurrentLetterIdx(0);
   };
 
   if (gameState === 'loading') {
@@ -211,7 +216,7 @@ export default function WordleGame({ params }: GamePageProps) {
       {gameState === 'lose' && (
         <>
           <Typography variant="h5" color="white">
-            {`Game Over! The word was ${fakeTargetWord}`}
+            {`Game Over!`}
           </Typography>
           <Button
             variant="contained"
@@ -234,7 +239,10 @@ export default function WordleGame({ params }: GamePageProps) {
           word not in list, try again
         </Typography>
       )}
-      <LetterBoard letterBoardState={letterBoardState} />
+      <LetterBoard
+        letterBoardState={letterBoardState}
+        verifyingIdx={verifying}
+      />
 
       <VirtualKeyboard
         onKeyPress={handleKeyPress}
