@@ -11,17 +11,24 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@libsql/client": "^0.15.10",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
+    "axios": "^1.11.0",
+    "dotenv": "^17.2.1",
+    "drizzle-orm": "^0.44.4",
+    "nanoid": "^5.1.5",
     "next": "15.4.5",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "zod": "^4.0.14"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.4",
     "eslint": "^9",
     "eslint-config-next": "15.4.5",
     "typescript": "^5"

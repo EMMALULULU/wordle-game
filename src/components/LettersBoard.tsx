@@ -1,9 +1,9 @@
 import { Stack, Typography } from '@mui/material';
 
 import { grey } from '@mui/material/colors';
-import { ColorMap } from './const';
+import { ColorMap } from '@/const';
 
-export type LetterStatus = 'HIT' | 'PRESENT' | 'MISS' | 'UNUSED';
+export type LetterStatus = 'H' | 'P' | 'M' | 'UNUSED';
 
 export type LetterCell = {
   letter: string;
@@ -59,11 +59,11 @@ export const LetterBoard = ({
 
 function getCellBgColor(state: LetterStatus): string | undefined {
   switch (state) {
-    case 'HIT':
+    case 'H':
       return ColorMap['hit'];
-    case 'PRESENT':
+    case 'P':
       return ColorMap['present'];
-    case 'MISS':
+    case 'M':
       return ColorMap['miss'];
     default:
       return;

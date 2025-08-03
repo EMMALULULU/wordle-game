@@ -3,7 +3,8 @@
 import React from 'react';
 import { grey } from '@mui/material/colors';
 import { Box, Button, Paper, styled } from '@mui/material';
-import { ColorMap } from './const';
+import { ColorMap } from '@/const';
+
 
 const keyboardLetters = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
