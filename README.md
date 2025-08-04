@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Game link
 You can access below link to start play the game without setting up locally 
-https://wordle-game-351xmeq8j-emmalus-projects.vercel.app/game/c5F4gFZfebC34ZEwFB-dr
+https://wordle-game-emma-lu.vercel.app/
 
 ## Running locally
 
