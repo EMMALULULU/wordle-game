@@ -7,10 +7,10 @@ import { useState } from 'react';
 
 export default function Home() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
 
   const handleStartNewGame = async () => {
-    setIsLoading(true);
+    setIsStarting(true);
     try {
       const response = await axios.post('/api/game/new');
 
@@ -19,11 +19,11 @@ export default function Home() {
         router.push(`/game/${data.gameId}`);
       } else {
         console.error('Failed to create new game');
+        setIsStarting(false);
       }
     } catch (error) {
       console.error('Error creating new game:', error);
-    } finally {
-      setIsLoading(false);
+      setIsStarting(false);
     }
   };
 
@@ -40,23 +40,25 @@ export default function Home() {
           gap: 4,
         }}
       >
-        <Typography variant="h1" component="h1" gutterBottom>
-          {isLoading ? 'loading...' : 'Wordle'}
+        <Typography variant="h3" component="h1" gutterBottom>
+          Wordle
         </Typography>
 
-        <Button
-          variant="contained"
-          size="large"
-          onClick={handleStartNewGame}
-          disabled={isLoading}
-          sx={{
-            fontSize: '1.2rem',
-            padding: '12px 32px',
-            borderRadius: '8px',
-          }}
-        >
-          Play
-        </Button>
+        {!isStarting && (
+          <Button
+            variant="contained"
+            size="large"
+            onClick={handleStartNewGame}
+            sx={{
+              fontSize: '1.2rem',
+              padding: '12px 32px',
+              borderRadius: '8px',
+            }}
+          >
+            Play
+          </Button>
+        )}
+        {isStarting && 'Starting the game...'}
       </Box>
     </Container>
   );

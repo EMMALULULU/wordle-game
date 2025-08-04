@@ -1,19 +1,24 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## Game link
+You can access below link to start play the game without setting up locally 
+https://wordle-game-351xmeq8j-emmalus-projects.vercel.app/game/c5F4gFZfebC34ZEwFB-dr
 
-First, run the development server:
+## Running locally
 
-```bash
-npm run dev
-
-```
-if you run it locally add to your local ```.env``` file
-
+put db connection token
 ```bash
 TURSO_CONNECTION_URL=libsql://wordle-game-emmalululu.aws-ap-northeast-1.turso.io
 TURSO_AUTH_TOKEN=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NTQxOTc0NzksImlkIjoiZWZlMDZkNjctYjlmNi00M2IzLWFiYTYtNzJmNmVlMDY5YjViIiwicmlkIjoiZjAwNDU2OWUtMGVhMi00OGM4LTlmYzItODRjNWI4NzEyMTc4In0.NHUODMgVOYZR5XpMDaarInRWz8TB1gExK14GGpYV-PCA5WrMFGQ0arFf8OwwJqG4-DdZ5R9CRyMRDehhCHhoCw
  ```
+ into your local ```.env``` file
+
+run the development server:
+
+```bash
+npm install
+npm run dev
+```
 
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -84,3 +89,4 @@ dynamic maintain this candidate list and after each verification store the updat
 Write backend logic (e.g., game server) in ```/app/api/``` without a separate Node.js server.
 Works seamlessly withTurso/SQLite
 Supports dynamic routes (```/game/[id]/page.tsx```) 
+easy deployment with vercel
